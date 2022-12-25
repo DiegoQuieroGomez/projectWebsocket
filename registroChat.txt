@@ -1,0 +1,16 @@
+[
+  {
+    "author": "Juan",
+    "text": "¡Hola! ¿Que tal?"
+  },
+  {
+    "author": "Pedro",
+    "text": "¡Muy bien! ¿Y vos?"
+  },
+  {
+    "author": "Ana",
+    "text": "¡Genial!"
+  },
+  "{\"author\":\"Diego\",\"text\":\"Hola que tal?\"}",
+  "{\"author\":\"Laura\",\"text\":\"hola que tal!\"}"
+]

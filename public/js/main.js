@@ -8,8 +8,10 @@ socket.on('mensajes', function (data) {
 function renderizar(data) {
     let html = data.map(function (elem, index) {
         return (`<div>
-        <strong>${elem.author}</strong>
-        <em>${elem.text}</em>
+        <p style="color: brown">
+        <b style="color: blue">${elem.email}</b>
+        [${elem.fecha}] :
+        <i style="color:green">${elem.text}</i></p>
         </div>
         `)
     }).join(" ")
@@ -17,17 +19,25 @@ function renderizar(data) {
 }
 
 function addMessage(e) {
-    let mensaje = {
-        author: document.getElementById('author').value,
-        text: document.getElementById('text').value
-    }
+    let email = document.getElementById('email').value
+    let fecha = new Date().toLocaleString()
+    if (email != null) {
+        let mensaje = {
+            email: email,
+            fecha: fecha,
+            text: document.getElementById('text').value
+        }
+        socket.emit("newMessage", mensaje)
+        
+        document.getElementById('text').value = ""
 
-    socket.emit("newMessage", mensaje)
+        return false
 
-    document.getElementById('author').value = ""
-    document.getElementById('text').value = ""
+    }else{
 
-    return false
+        prompt("debe ingresar un Email para chatear")
+
+    }  
 }
 
 function addProducts(e) {

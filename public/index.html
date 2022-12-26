@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,21 +8,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <script src="/socket.io/socket.io.js"></script>
-    
+
     <title>Document</title>
 </head>
+
 <body>
 
     <div class="container">
         <h1 style="color: blue">Registro de Productos</h1>
-    
+
         <fieldset style="border: 2px solid black; padding: 10px">
             <legend style="color: blue">Formulario de ingreso</legend>
             <form onsubmit="return addProducts(this)">
                 <div class="mb-3">
                     <label for="nombreProducto" class="form-label">Nombre Producto</label>
                     <br>
-                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Producto" required>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Producto"
+                        required>
                 </div>
                 <div class="mb-3">
                     <label for="precio" class="form-label">Precio</label>
@@ -42,20 +45,25 @@
 
     <div class="contenedor" id="tablaProducto">
         <script>
-            {{tabla}}
+            { { tabla } }
         </script>
     </div>
-    
+
     <br>
-    <div class="container" id="mensajes"></div>
     </div class="container">
-        <form onsubmit="return addMessage(this)">
-            <input type="text" id="author" placeholder="Tu nombre">
-            <input type="text" id="text" placeholder="Cuentame algo...">
-            <button type="submit">Enviar</button>
-        </form>
+        <legend style="margin: 2px solid black;">
+            <form onsubmit="return addMessage(this)">
+                <input type="email" id="email" placeholder="Tu correo" required>
+                <input type="text" id="text" placeholder="Ingrese un mensaje">
+                <button type="submit">Enviar</button>
+            </form>
+        </legend>
     </div>
-    
-    <script src="/js/main.js" ></script>
+
+    <div class="container" id="mensajes"></div>
+
+
+    <script src="/js/main.js"></script>
 </body>
+
 </html>

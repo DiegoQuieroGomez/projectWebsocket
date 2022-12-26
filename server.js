@@ -1,18 +1,18 @@
 const fs = require('fs')
 const express = require('express')
+const { json } = require('express')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
+
 
 app.use(express.static('public'))
 
 let products = []
 
-let messages = [
-    { author: "Juan", text: "¡Hola! ¿Que tal?" },
-    { author: "Pedro", text: "¡Muy bien! ¿Y vos?" },
-    { author: "Ana", text: "¡Genial!" }
-];
+let messages = []
+
+//Solo para crear el archivo//condicion archivo
 
 function crearArchivo(Ruta, data) {
     try {
@@ -23,8 +23,9 @@ function crearArchivo(Ruta, data) {
     }
 }
 
-async function actualizar(nombreArchivo, object) {
+crearArchivo("registroChat.txt", JSON.stringify(messages))
 
+async function actualizar(nombreArchivo, object) {
     let messages = []
     const data = await fs.promises.readFile(nombreArchivo, 'utf-8')
         .then(console.log(`Archivo leido correctamente`))
@@ -32,9 +33,7 @@ async function actualizar(nombreArchivo, object) {
     let mix = JSON.parse(data)
     if (mix.length > 0) {
         messages.push(...mix)
-    } else {
-        messages.push(mix)
-    }
+    } 
     messages.push(object)
     fs.promises.writeFile(nombreArchivo, JSON.stringify(messages, null, 2))
         .then('sobreescritura correcta')
@@ -42,8 +41,6 @@ async function actualizar(nombreArchivo, object) {
 }
 
 
-
-crearArchivo("registroChat.txt", JSON.stringify(messages))
 
 io.on("connection", function (socket) {
     console.log("Un cliente se ha conectado")
@@ -59,11 +56,10 @@ io.on("connection", function (socket) {
         messages.push(data);
         actualizar("registroChat.txt", JSON.stringify(data))
         io.sockets.emit("mensajes", messages)
-
     })
 
-
 })
+
 
 app.get('/', (req, res) => {
     res.sendFile('index.html', { root: __dirname })

@@ -1,16 +1,6 @@
 [
-  {
-    "author": "Juan",
-    "text": "¡Hola! ¿Que tal?"
-  },
-  {
-    "author": "Pedro",
-    "text": "¡Muy bien! ¿Y vos?"
-  },
-  {
-    "author": "Ana",
-    "text": "¡Genial!"
-  },
-  "{\"author\":\"Diego\",\"text\":\"Hola que tal?\"}",
-  "{\"author\":\"Laura\",\"text\":\"hola que tal!\"}"
+  "{\"email\":\"asdasd@gmail.com\",\"fecha\":\"26-12-2022, 16:55:01\",\"text\":\"asda\"}",
+  "{\"email\":\"asdasd@gmail.com\",\"fecha\":\"26-12-2022, 16:55:03\",\"text\":\"qweqwe\"}",
+  "{\"email\":\"asdasd@gmail.com\",\"fecha\":\"26-12-2022, 16:55:05\",\"text\":\"zxcq\"}",
+  "{\"email\":\"asdasd@gmail.com\",\"fecha\":\"26-12-2022, 16:55:07\",\"text\":\"qweqwe\"}"
 ]

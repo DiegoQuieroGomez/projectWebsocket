@@ -1,6 +1,1 @@
-[
-  "{\"email\":\"asdasd@gmail.com\",\"fecha\":\"26-12-2022, 16:55:01\",\"text\":\"asda\"}",
-  "{\"email\":\"asdasd@gmail.com\",\"fecha\":\"26-12-2022, 16:55:03\",\"text\":\"qweqwe\"}",
-  "{\"email\":\"asdasd@gmail.com\",\"fecha\":\"26-12-2022, 16:55:05\",\"text\":\"zxcq\"}",
-  "{\"email\":\"asdasd@gmail.com\",\"fecha\":\"26-12-2022, 16:55:07\",\"text\":\"qweqwe\"}"
-]
+[]

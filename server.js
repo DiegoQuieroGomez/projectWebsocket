@@ -1,15 +1,15 @@
+
 const fs = require('fs')
 const express = require('express')
 const { json } = require('express')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
-
+const hbs = require('handlebars')
 
 app.use(express.static('public'))
 
-let products = []
-
+let products = [{nombre: "tele", precio: "caleta", url:"loquequieras"}]
 let messages = []
 
 //Solo para crear el archivo//condicion archivo
@@ -24,6 +24,8 @@ function crearArchivo(Ruta, data) {
 }
 
 crearArchivo("registroChat.txt", JSON.stringify(messages))
+
+
 
 async function actualizar(nombreArchivo, object) {
     let messages = []
@@ -40,7 +42,12 @@ async function actualizar(nombreArchivo, object) {
         .catch(error => console.log(error))
 }
 
-
+const productosApi = async () => {
+    const response = await fetch(products)
+    todosMisProductos = [...response]
+    console.log(todosMisProductos)
+    hbsInsert(todosMisProductos)
+}
 
 io.on("connection", function (socket) {
     console.log("Un cliente se ha conectado")
@@ -49,7 +56,7 @@ io.on("connection", function (socket) {
     socket.on("newProduct", function (data) {
         products.push(data)
         console.log(products)
-        //io.socket.emit("---------------")
+        
     })
 
     socket.on("newMessage", function (data) {

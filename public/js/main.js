@@ -28,16 +28,16 @@ function addMessage(e) {
             text: document.getElementById('text').value
         }
         socket.emit("newMessage", mensaje)
-        
+
         document.getElementById('text').value = ""
 
         return false
 
-    }else{
+    } else {
 
-        prompt("debe ingresar un Email para chatear")
+        alert("debe ingresar un Email para chatear")
 
-    }  
+    }
 }
 
 function addProducts(e) {
@@ -48,7 +48,7 @@ function addProducts(e) {
     }
 
     socket.emit("newProduct", product)
-        
+
     document.getElementById('nombre').value = ""
     document.getElementById('precio').value = ""
     document.getElementById('url').value = ""
@@ -56,3 +56,36 @@ function addProducts(e) {
     return false
 }
 
+function hbsInsert(array) {
+    const source = document.getElementById("tablaProducto")
+    const template = hbs.compile(`
+        <div class="container">
+            <h1>Listado de Productos</h1>
+            <div class="container">
+                {{#if productos.length}}
+                <table class="table table-dark table-striped" style="text-align: center;">
+                    <tr>
+                        <th scope="col">Nombre Producto</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Foto Producto</th>
+                    </tr>
+                    <br>
+                    {{#each productos}}
+                    <tr>
+                        <td scope="row">{{this.nombre}}</td>
+                        <td scope="row">$ {{this.precio}}</td>
+                        <td scope="row"><img src="{{this.url}}" class="img-fluid" style="width: 40px; heigth: 40px"></td>
+                    </tr>
+                    {{/each}}
+                </table>
+                {{else}}
+                <h2>No hay productos</h2>
+                {{/if}}
+            </div>
+        </div>
+    `)
+    const html = template(array)
+    source.innerHTML = html
+}
+
+hbsInsert(products)

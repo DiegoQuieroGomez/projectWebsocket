@@ -5,15 +5,19 @@ const { json } = require('express')
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
-const hbs = require('handlebars')
+const { engine } = require("express-handlebars")
 
 app.use(express.static('public'))
 
-let products = [{nombre: "tele", precio: "caleta", url:"loquequieras"}]
+app.engine('handelbars', engine())
+app.set('views','./public/views')
+app.set('view engine', 'handlebars')
+
+let products = [{nombre: "Televisor", precio: 2500, url:"www.casi.com"}]
 let messages = []
 
 //Solo para crear el archivo//condicion archivo
-
+/*
 function crearArchivo(Ruta, data) {
     try {
         fs.writeFileSync(Ruta, data)
@@ -24,8 +28,7 @@ function crearArchivo(Ruta, data) {
 }
 
 crearArchivo("registroChat.txt", JSON.stringify(messages))
-
-
+*/
 
 async function actualizar(nombreArchivo, object) {
     let messages = []
@@ -42,12 +45,6 @@ async function actualizar(nombreArchivo, object) {
         .catch(error => console.log(error))
 }
 
-const productosApi = async () => {
-    const response = await fetch(products)
-    todosMisProductos = [...response]
-    console.log(todosMisProductos)
-    hbsInsert(todosMisProductos)
-}
 
 io.on("connection", function (socket) {
     console.log("Un cliente se ha conectado")
@@ -56,6 +53,7 @@ io.on("connection", function (socket) {
     socket.on("newProduct", function (data) {
         products.push(data)
         console.log(products)
+        io.socket.emit('tabla', { products})
         
     })
 
@@ -67,9 +65,8 @@ io.on("connection", function (socket) {
 
 })
 
-
 app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: __dirname })
+    res.sendFile('index.html', {root: __dirname})
 })
 
 const PORT = 8080

@@ -1,3 +1,5 @@
+
+
 let socket = io.connect()
 
 socket.on('mensajes', function (data) {
@@ -56,36 +58,16 @@ function addProducts(e) {
     return false
 }
 
-function hbsInsert(array) {
-    const source = document.getElementById("tablaProducto")
-    const template = hbs.compile(`
-        <div class="container">
-            <h1>Listado de Productos</h1>
-            <div class="container">
-                {{#if productos.length}}
-                <table class="table table-dark table-striped" style="text-align: center;">
-                    <tr>
-                        <th scope="col">Nombre Producto</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Foto Producto</th>
-                    </tr>
-                    <br>
-                    {{#each productos}}
-                    <tr>
-                        <td scope="row">{{this.nombre}}</td>
-                        <td scope="row">$ {{this.precio}}</td>
-                        <td scope="row"><img src="{{this.url}}" class="img-fluid" style="width: 40px; heigth: 40px"></td>
-                    </tr>
-                    {{/each}}
-                </table>
-                {{else}}
-                <h2>No hay productos</h2>
-                {{/if}}
-            </div>
-        </div>
-    `)
-    const html = template(array)
-    source.innerHTML = html
-}
+function temp () {
+    let template = document.getElementById('tabla').innerHTML
+    let temp = Handlebars.compile(template)
 
-hbsInsert(products)
+    let context = {
+        nombre: "lo que sea",
+        precio: "cuanto quieras",
+        url: "funciona de una vez"
+    }
+
+    let compileHtml = temp(context)
+    document.getElementById('tablaProductos').innerHTML = compileHtml
+}

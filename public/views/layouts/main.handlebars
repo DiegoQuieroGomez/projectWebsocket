@@ -13,7 +13,7 @@
     <title>Document</title>
 </head>
 
-<body class="container">
+<body>
 
     <div class="container">
         <h1 style="color: blue">Registro de Productos</h1>
@@ -43,25 +43,20 @@
         </fieldset>
     </div>
     <br>
-
-    <script id="tabla" type="text/x-handlebars-template">
-        {{precio}}
-    </script> 
-
-    <div class="contenedor" id="tablaProductos" >
-        
-
+    <div class="contenedor">
+        {{body}}
     </div>
-
+    <br>
+    
     <br>
     </div class="container">
-        <fieldset style="border: 2px solid black; padding: 10px" >
+        <legend style="margin: 2px solid black;">
             <form onsubmit="return addMessage(this)">
                 <input type="email" id="email" placeholder="Tu correo" required>
                 <input type="text" id="text" placeholder="Ingrese un mensaje">
                 <button type="submit">Enviar</button>
             </form>
-        </fieldset>
+        </legend>
     </div>
 
     <div class="container" id="mensajes"></div>

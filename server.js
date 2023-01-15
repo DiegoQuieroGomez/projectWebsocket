@@ -1,4 +1,5 @@
 import mySQLProducts from "./databases/mySQLProducts.js"
+import sqlite  from "./databases/sqlite3.js"
 import ClienteSql from "./crud/contenedor.js"
 import express, { json, urlencoded } from "express"
 import { dirname } from "path";
@@ -7,7 +8,8 @@ import { Server as IOServer } from 'socket.io';
 import fs from "express"
 
 const sqlProd = new ClienteSql(mySQLProducts,"productos")
-sqlProd.crearTablaProductos()
+
+const sqlChat = new ClienteSql(sqlite, "chat")
 
 const app = express()
 
@@ -46,21 +48,23 @@ function crearArchivo(Ruta, data) {
 crearArchivo("registroChat.txt", JSON.stringify(messages))
 */
 
-async function actualizar(nombreArchivo, object) {
+async function actualizar(data) {
     let messages = []
-    const data = await fs.promises.readFile(nombreArchivo, 'utf-8')
-        .then(console.log(`Archivo leido correctamente`))
-        .catch(error => console.log(error))
-    let mix = JSON.parse(data)
-    if (mix.length > 0) {
-        messages.push(...mix)
-    } 
-    messages.push(object)
-    fs.promises.writeFile(nombreArchivo, JSON.stringify(messages, null, 2))
-        .then('sobreescritura correcta')
-        .catch(error => console.log(error))
-}
+    sqlChat.crearTablaChats()
+    sqlChat.listarDatos()
+    console.log(data)
+    try{
+        if (data.length > 0) {
+            messages.push(...data)
+        }else{
+            sqlChat.insertarDatos(messages)
 
+        }
+
+    }catch(error){
+        console.log(error)
+    }
+}
 
 io.on("connection", function (socket) {
     console.log("Un cliente se ha conectado")
@@ -78,10 +82,11 @@ io.on("connection", function (socket) {
         io.sockets.emit('tabla', {products}) 
     })
 
-    socket.on("newMessage", function (data) {
+    socket.on("newMessage", function(data) {
         messages.push(data);
-        actualizar("registroChat.txt", JSON.stringify(data))
+        actualizar(messages)
         io.sockets.emit("mensajes", messages)
+
     })
 
 })

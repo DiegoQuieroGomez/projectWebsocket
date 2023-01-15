@@ -16,7 +16,6 @@ class ClienteSql {
                     table.string('nombre',15).notNullable();
                     table.float('precio');
                     table.string('url', 200).notNullable();
-
                 })
             })
     }
@@ -25,16 +24,15 @@ class ClienteSql {
         return this.knexDB.schema.dropTableIfExists(this.tabla)
         //return this.knexDB.schema.createTableIfNotExists(this.tabla)
             .finally(() =>{
-                return this.knexDB.schema.createTable(productos, table =>{
+                return this.knexDB.schema.createTable(this.tabla, table =>{
                     table.increments('id').primary();
-                    table.string('nombre',15).notNullable();
-                    table.float('precio');
-                    table.string('url', 200).notNullable();
+                    table.string('email',45).notNullable();
+                    table.date('fecha').notNullable();
+                    table.string('text', 400).notNullable();
 
                 })
             })
     }
-    
     
 
     async insertarDatos(data){

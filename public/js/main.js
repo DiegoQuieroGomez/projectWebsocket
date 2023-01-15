@@ -1,5 +1,3 @@
-
-
 let socket = io.connect()
 
 socket.on('mensajes', function (data) {

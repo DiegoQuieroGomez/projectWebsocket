@@ -1,20 +1,36 @@
+import mySQLProducts from "./databases/mySQLProducts.js"
+import ClienteSql from "./crud/contenedor.js"
+import express, { json, urlencoded } from "express"
+import { dirname } from "path";
+import { engine } from "express-handlebars"
+import { Server as IOServer } from 'socket.io';
+import fs from "express"
 
-const fs = require('fs')
-const express = require('express')
-const { json } = require('express')
+const sqlProd = new ClienteSql(mySQLProducts,"productos")
+sqlProd.crearTablaProductos()
+
 const app = express()
-const server = require('http').Server(app)
-const io = require('socket.io')(server)
-const { engine } = require("express-handlebars")
+
+
+const PORT = 8080
+
+const srv = app.listen(PORT, () => console.log(`El servidor websocket esta corriendo en el puerto ${srv.address().port}`))
+srv.on("error", error => console.log(`Error en el servidor ${error}`))
+
+const io = new IOServer(srv);
 
 app.use(express.static('public'))
+app.use(json())
+app.use(urlencoded({extended:true}))
 
-app.engine('handelbars', engine())
+app.engine('handlebars', engine())
 app.set('views','./public/views')
 app.set('view engine', 'handlebars')
 
-let products = [{nombre: "Televisor", precio: 2500, url:"www.casi.com"}]
+let products = []
 let messages = []
+
+
 
 //Solo para crear el archivo//condicion archivo
 /*
@@ -52,9 +68,14 @@ io.on("connection", function (socket) {
 
     socket.on("newProduct", function (data) {
         products.push(data)
+        sqlProd.crearTablaProductos()
+        .then(() => console.log('funciona'))
+        .then(()=>{
+            return sqlProd.insertarDatos(products)
+        })
+        .then(()=> console.log('Producto ingresado correctamente'))
         console.log(products)
-        io.socket.emit('tabla', { products})
-        
+        io.sockets.emit('tabla', {products}) 
     })
 
     socket.on("newMessage", function (data) {
@@ -69,8 +90,3 @@ app.get('/', (req, res) => {
     res.sendFile('index.html', {root: __dirname})
 })
 
-const PORT = 8080
-
-const srv = server.listen(PORT, () => console.log(`El servidor websocket esta corriendo en el pureto ${srv.address().port}`))
-
-srv.on("error", error => console.log(`Error en el servidor ${error}`))
